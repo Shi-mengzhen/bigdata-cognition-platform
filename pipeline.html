@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数据处理全流程 · 大数据认知平台</title>
+<meta name="description" content="大数据处理全流程：采集、清洗、存储、计算、分析、可视化六环节的核心任务、代表工具与关键要点。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563eb'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23ffffff' font-family='Georgia,serif' font-weight='bold'%3Eπ%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container">
+    <a class="brand" href="index.html"><span class="logo">π</span><span>大数据认知平台<small>BIG DATA COGNITION</small></span></a>
+    <button class="hamburger" aria-label="菜单"><i></i><i></i><i></i></button>
+    <div class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="concept.html">认知基础</a>
+      <a href="techstack.html">技术栈</a>
+      <a href="pipeline.html">数据流程</a>
+      <a href="practice.html">实践案例</a>
+      <a href="lab.html">动手实验</a>
+      <a href="cases.html">行业应用</a>
+      <a href="about.html">关于</a>
+    </div>
+  </div>
+</nav>
+
+<header class="banner">
+  <div class="container">
+    <div class="crumb"><a href="index.html">首页</a> / 数据处理全流程</div>
+    <h1>数据处理全流程</h1>
+    <p>从原始数据到业务洞察，大数据处理要经历采集、清洗、存储、计算、分析、可视化六个环节，环环相扣，缺一不可。</p>
+  </div>
+</header>
+
+<!-- 流水线 -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Data Pipeline</span>
+      <h2>一条数据流水线的六个环节</h2>
+      <p>数据像流水一样自上而下经过六个环节，每一环都在为下一环「增值」：把原始、杂乱的数据，逐步加工成可以决策的信息。</p>
+    </div>
+    <div class="diagram reveal" style="margin-bottom:24px">
+      <svg viewBox="0 0 1100 215" role="img" aria-label="数据采集、清洗、存储、计算、分析、可视化六环节流水线示意图">
+        <defs>
+          <marker id="plArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#93b4f5"/>
+          </marker>
+        </defs>
+        <g>
+          <rect x="15" y="30" width="150" height="130" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+          <circle cx="90" cy="70" r="20" fill="#2563eb"/>
+          <text x="90" y="76" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">1</text>
+          <text x="90" y="118" text-anchor="middle" fill="#0f172a" font-size="13.5" font-weight="700">数据采集</text>
+          <text x="90" y="142" text-anchor="middle" fill="#64748b" font-size="10.5">Flume/Sqoop</text>
+        </g>
+        <line x1="167" y1="95" x2="193" y2="95" stroke="#93b4f5" stroke-width="2" marker-end="url(#plArrow)"/>
+        <g>
+          <rect x="199" y="30" width="150" height="130" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+          <circle cx="274" cy="70" r="20" fill="#0891b2"/>
+          <text x="274" y="76" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">2</text>
+          <text x="274" y="118" text-anchor="middle" fill="#0f172a" font-size="13.5" font-weight="700">数据清洗</text>
+          <text x="274" y="142" text-anchor="middle" fill="#64748b" font-size="10.5">Python 处理</text>
+        </g>
+        <line x1="351" y1="95" x2="377" y2="95" stroke="#93b4f5" stroke-width="2" marker-end="url(#plArrow)"/>
+        <g>
+          <rect x="383" y="30" width="150" height="130" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+          <circle cx="458" cy="70" r="20" fill="#4f46e5"/>
+          <text x="458" y="76" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">3</text>
+          <text x="458" y="118" text-anchor="middle" fill="#0f172a" font-size="13.5" font-weight="700">数据存储</text>
+          <text x="458" y="142" text-anchor="middle" fill="#64748b" font-size="10.5">HDFS·HBase</text>
+        </g>
+        <line x1="535" y1="95" x2="561" y2="95" stroke="#93b4f5" stroke-width="2" marker-end="url(#plArrow)"/>
+        <g>
+          <rect x="567" y="30" width="150" height="130" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+          <circle cx="642" cy="70" r="20" fill="#7c3aed"/>
+          <text x="642" y="76" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">4</text>
+          <text x="642" y="118" text-anchor="middle" fill="#0f172a" font-size="13.5" font-weight="700">数据计算</text>
+          <text x="642" y="142" text-anchor="middle" fill="#64748b" font-size="10.5">MapReduce</text>
+        </g>
+        <line x1="719" y1="95" x2="745" y2="95" stroke="#93b4f5" stroke-width="2" marker-end="url(#plArrow)"/>
+        <g>
+          <rect x="751" y="30" width="150" height="130" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+          <circle cx="826" cy="70" r="20" fill="#0e7490"/>
+          <text x="826" y="76" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">5</text>
+          <text x="826" y="118" text-anchor="middle" fill="#0f172a" font-size="13.5" font-weight="700">数据分析</text>
+          <text x="826" y="142" text-anchor="middle" fill="#64748b" font-size="10.5">Spark SQL</text>
+        </g>
+        <line x1="903" y1="95" x2="929" y2="95" stroke="#93b4f5" stroke-width="2" marker-end="url(#plArrow)"/>
+        <g>
+          <rect x="935" y="30" width="150" height="130" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+          <circle cx="1010" cy="70" r="20" fill="#f59e0b"/>
+          <text x="1010" y="76" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">6</text>
+          <text x="1010" y="118" text-anchor="middle" fill="#0f172a" font-size="13.5" font-weight="700">数据可视化</text>
+          <text x="1010" y="142" text-anchor="middle" fill="#64748b" font-size="10.5">统计报表</text>
+        </g>
+      </svg>
+      <span class="cap">图 1　六个环节依次衔接、缺一不可，每一环都为下一环把数据「加工得更可用」</span>
+    </div>
+    <div class="flow reveal">
+      <div class="step"><div class="num">1</div><h4>数据采集</h4><p>从日志、数据库、接口、文件中把分散的数据汇集起来。</p><div class="tools"><span>Flume</span><span>Sqoop</span><span>Python 采集</span></div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="num">2</div><h4>数据清洗</h4><p>去重、补缺、纠错、格式化，让「脏数据」变得规范可用。</p><div class="tools"><span>Python</span><span>数据清洗</span></div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="num">3</div><h4>数据存储</h4><p>按结构与非结构分门别类，落盘到分布式存储中。</p><div class="tools"><span>HDFS</span><span>HBase</span><span>Hive</span></div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="num">4</div><h4>数据计算</h4><p>用集群并行处理海量数据，完成统计、聚合与转换。</p><div class="tools"><span>MapReduce</span><span>Spark</span></div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="num">5</div><h4>数据分析</h4><p>挖掘规律与关联，输出指标、画像、预测等洞察。</p><div class="tools"><span>Spark SQL</span><span>数据仓库</span></div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="num">6</div><h4>数据可视化</h4><p>把结果变成图表与报表，让数据「看得懂、用得上」。</p><div class="tools"><span>数据可视化</span><span>统计报表</span></div></div>
+    </div>
+    <div class="callout" style="margin-top:22px">专业视角：六个环节并非一次性的直线，实际生产中常通过调度手段周期性地、自动化地反复执行，形成「数据流水线」。</div>
+  </div>
+</section>
+
+<!-- 各环节详解 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Step by Step</span>
+      <h2>每个环节做什么</h2>
+      <p>拆解六个环节的核心任务、常用工具与关键要点，帮你在实践中对号入座。</p>
+    </div>
+    <div class="grid g-3">
+      <div class="card reveal">
+        <div class="ico">1</div>
+        <h3>数据采集</h3>
+        <p>解决「数据从哪里来」。需要处理多源、异构、实时与非实时等不同场景：日志流用 Flume 采集，业务库用 Sqoop 批量导入，网页数据用 Python 采集获取。</p>
+        <div class="tags"><span class="chip">多源异构</span><span class="chip c2">实时/离线</span></div>
+      </div>
+      <div class="card reveal" data-delay=".05">
+        <div class="ico">2</div>
+        <h3>数据清洗</h3>
+        <p>数据质量决定分析成败。清洗包括缺失值填充、异常值处理、重复数据删除、字段类型统一与格式规范化，是数据分析中最耗时的环节之一。</p>
+        <div class="tags"><span class="chip">去重</span><span class="chip c3">补缺</span><span class="chip c4">规范化</span></div>
+      </div>
+      <div class="card reveal" data-delay=".1">
+        <div class="ico">3</div>
+        <h3>数据存储</h3>
+        <p>根据数据特点选择合适的存储：海量大文件用 HDFS，需要实时随机读写用 HBase，结构化数据分析用 Hive，实时数据先缓冲再落盘。</p>
+        <div class="tags"><span class="chip">HDFS</span><span class="chip c2">HBase</span><span class="chip c3">Hive</span></div>
+      </div>
+      <div class="card reveal">
+        <div class="ico">4</div>
+        <h3>数据计算</h3>
+        <p>把海量数据拆分到多台机器并行处理。MapReduce 是分而治之的经典模型，Spark 基于内存把速度提升数十倍，Spark Streaming 面向实时流式计算。</p>
+        <div class="tags"><span class="chip">并行</span><span class="chip c2">内存计算</span><span class="chip c4">流计算</span></div>
+      </div>
+      <div class="card reveal" data-delay=".05">
+        <div class="ico">5</div>
+        <h3>数据分析</h3>
+        <p>在计算的基础上做统计与挖掘：用户画像、关联分析、聚类分群、销量预测等。常用 Spark SQL 完成统计与建模。</p>
+        <div class="tags"><span class="chip">统计</span><span class="chip c3">挖掘</span><span class="chip c3">预测</span></div>
+      </div>
+      <div class="card reveal" data-delay=".1">
+        <div class="ico">6</div>
+        <h3>数据可视化</h3>
+        <p>把分析结果翻译成图形语言。折线看趋势、柱状比大小、饼图看占比、地图看分布，最终汇成面向业务的统计报表与可视化图表。</p>
+        <div class="tags"><span class="chip">图表</span><span class="chip c2">可视化</span><span class="chip c4">报表</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 数据质量 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="grid g-2">
+      <div class="panel reveal">
+        <div class="ph"><h3>数据质量的五个维度</h3><span class="hint">清洗环节的评价标准</span></div>
+        <div class="row-list">
+          <div class="r"><span class="k">完整性</span><span class="v">关键字段是否缺失 <small>缺失值需填充或剔除</small></span></div>
+          <div class="r"><span class="k">准确性</span><span class="v">数据是否真实反映客观事物 <small>异常值需校验</small></span></div>
+          <div class="r"><span class="k">一致性</span><span class="v">同一数据在不同来源是否统一 <small>口径需对齐</small></span></div>
+          <div class="r"><span class="k">及时性</span><span class="v">数据是否在需要时可得 <small>实时性要求</small></span></div>
+          <div class="r"><span class="k">唯一性</span><span class="v">是否存在重复记录 <small>需去重</small></span></div>
+        </div>
+      </div>
+      <div class="panel reveal" data-delay=".08">
+        <div class="ph"><h3>批处理 vs 流处理</h3><span class="hint">两种处理模式的取舍</span></div>
+        <table class="tbl">
+          <thead><tr><th>对比项</th><th>批处理</th><th>流处理</th></tr></thead>
+          <tbody>
+            <tr><td>处理对象</td><td>已落盘的历史数据</td><td>持续到达的实时数据</td></tr>
+            <tr><td>延迟</td><td>分钟 ~ 小时级</td><td>毫秒 ~ 秒级</td></tr>
+            <tr><td>代表技术</td><td>MapReduce / Spark</td><td>Spark Streaming</td></tr>
+            <tr><td>典型场景</td><td>日报、离线报表</td><td>实时监控、风控预警</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="callout warn" style="margin-top:22px">常见误区：很多人以为分析的重点在「算法」，但在真实项目中，<b>采集与清洗往往占据 60%～80% 的工作量</b>——数据不干净，再好的模型也得不出正确结论。</div>
+  </div>
+</section>
+
+<!-- 清洗规则示意 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Cleaning Rules</span>
+      <h2>常见数据问题与处理手段</h2>
+      <p>下表列举清洗环节中最典型的问题及对应的处理策略，是实践中最常用的一套「清洗动作」。</p>
+    </div>
+    <table class="tbl reveal">
+      <thead><tr><th>问题类型</th><th>示例</th><th>处理手段</th><th>所属维度</th></tr></thead>
+      <tbody>
+        <tr><td>缺失值</td><td>用户年龄为空</td><td>删除记录 / 均值中位数填充 / 标记为未知</td><td>完整性</td></tr>
+        <tr><td>重复记录</td><td>同一订单出现两次</td><td>按主键去重，保留最新一条</td><td>唯一性</td></tr>
+        <tr><td>异常值</td><td>年龄 = 999</td><td>基于业务规则或 3σ 法则识别并修正</td><td>准确性</td></tr>
+        <tr><td>格式不统一</td><td>日期有 2024/1/1 与 2024-01-01</td><td>统一时间戳格式与字段类型</td><td>一致性</td></tr>
+        <tr><td>噪声数据</td><td>爬取文本含 HTML 标签</td><td>正则清洗、分词、去停用词</td><td>准确性</td></tr>
+      </tbody>
+    </table>
+    <div class="callout ok" style="margin-top:22px">学以致用：这部分内容正对应专业课程《数据采集与清洗》与《数据分析技术与应用》，是后续实践案例页面的技术基础。</div>
+  </div>
+</section>
+
+<!-- 前后导航 -->
+<section class="section-sm">
+  <div class="container" style="display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap">
+    <a class="btn btn-blue" href="techstack.html">← 上一模块：技术栈与架构</a>
+    <a class="btn btn-blue" href="practice.html">下一模块：学以致用实践案例 →</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="cols">
+      <div>
+        <a class="brand" href="index.html"><span class="logo">π</span><span>大数据认知平台</span></a>
+        <p style="margin-top:14px">面向大数据技术专业的知识认知与学以致用平台，由数智科技产业学院大数据技术专业学生自主设计与实现。</p>
+      </div>
+      <div>
+        <h4>知识模块</h4>
+        <a href="concept.html">认知基础</a>
+        <a href="techstack.html">技术栈与架构</a>
+        <a href="pipeline.html">数据处理流程</a>
+        <a href="practice.html">实践案例</a>
+      </div>
+      <div>
+        <h4>关于</h4>
+        <a href="lab.html">动手实验</a>
+        <a href="cases.html">行业应用</a>
+        <a href="about.html">平台与作者</a></div>
+    </div>
+    <div class="bottom">© 2026 大数据认知平台 · 石梦真 · 数智科技产业学院大数据技术专业　|　一个学生做的知识站，发现错误欢迎指出</div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

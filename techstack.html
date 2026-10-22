@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>技术栈与架构 · 大数据认知平台</title>
+<meta name="description" content="大数据技术栈与六层架构：Hadoop 与 Spark 生态核心组件、分层架构，以及与专业课程的映射关系。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563eb'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23ffffff' font-family='Georgia,serif' font-weight='bold'%3Eπ%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container">
+    <a class="brand" href="index.html"><span class="logo">π</span><span>大数据认知平台<small>BIG DATA COGNITION</small></span></a>
+    <button class="hamburger" aria-label="菜单"><i></i><i></i><i></i></button>
+    <div class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="concept.html">认知基础</a>
+      <a href="techstack.html">技术栈</a>
+      <a href="pipeline.html">数据流程</a>
+      <a href="practice.html">实践案例</a>
+      <a href="lab.html">动手实验</a>
+      <a href="cases.html">行业应用</a>
+      <a href="about.html">关于</a>
+    </div>
+  </div>
+</nav>
+
+<header class="banner">
+  <div class="container">
+    <div class="crumb"><a href="index.html">首页</a> / 技术栈与架构</div>
+    <h1>技术栈与分层架构</h1>
+    <p>梳理 Hadoop 与 Spark 两大生态的核心组件，并以六层架构串联「采集—存储—计算—分析—应用」的完整技术体系。</p>
+  </div>
+</header>
+
+<!-- 分层架构 -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal"><span class="eyebrow">Architecture</span><h2>大数据六层技术架构</h2><p>自下而上，逐层递进。每一层解决一类问题，共同支撑数据的价值转化。</p></div>
+    <div class="layers reveal">
+      <div class="layer l-cyan"><span class="lt">① 数据采集层</span><span class="items"><span>Flume</span><span>Sqoop</span><span>Python 采集</span></span></div>
+      <div class="layer l-blue"><span class="lt">② 数据存储层</span><span class="items"><span>HDFS</span><span>HBase</span><span>Hive</span><span>关系型数据库</span></span></div>
+      <div class="layer l-slate"><span class="lt">③ 资源管理层</span><span class="items"><span>YARN</span><span>资源调度</span></span></div>
+      <div class="layer l-indigo"><span class="lt">④ 计算处理层</span><span class="items"><span>MapReduce</span><span>Spark</span><span>Hive</span></span></div>
+      <div class="layer l-violet"><span class="lt">⑤ 分析挖掘层</span><span class="items"><span>Spark SQL</span><span>数据仓库</span><span>数据挖掘</span></span></div>
+      <div class="layer l-cyan"><span class="lt">⑥ 可视化应用层</span><span class="items"><span>数据可视化</span><span>统计报表</span><span>图表展示</span></span></div>
+    </div>
+    <div class="callout" style="margin-top:20px">专业视角：数据自下而上流动——底层解决「存得住、算得动」，上层解决「看得懂、用得上」。</div>
+  </div>
+</section>
+
+<!-- Hadoop 生态 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal"><span class="eyebrow">Ecosystem 01</span><h2>Hadoop 生态核心组件</h2><p>Hadoop 是大数据的基石，其生态以 HDFS + YARN + MapReduce 为核心，向外扩展出完整的工具链。</p></div>
+    <div class="grid g-3">
+      <div class="card reveal"><div class="ico">H</div><h3>HDFS</h3><p>分布式文件系统。将大文件切块（Block）多副本存储在多台机器上，实现高容错、高吞吐的存储。</p><div class="tags"><span class="chip">NameNode</span><span class="chip">DataNode</span><span class="chip">副本机制</span></div></div>
+      <div class="card reveal" data-delay=".05"><div class="ico">Y</div><h3>YARN</h3><p>资源管理与调度框架。把集群的 CPU、内存统一管理，按需分配给各个计算任务。</p><div class="tags"><span class="chip">ResourceManager</span><span class="chip">NodeManager</span></div></div>
+      <div class="card reveal" data-delay=".1"><div class="ico">M</div><h3>MapReduce</h3><p>分布式计算模型。将任务拆分为 Map（映射）与 Reduce（归约）两阶段，在集群中并行执行。</p><div class="tags"><span class="chip">分而治之</span><span class="chip">并行计算</span></div></div>
+      <div class="card reveal"><div class="ico">Hv</div><h3>Hive</h3><p>基于 Hadoop 的数据仓库工具。用类似 SQL 的 HQL 查询 HDFS 上的数据，降低使用门槛。</p><div class="tags"><span class="chip c2">数据仓库</span><span class="chip c2">SQL 化</span></div></div>
+      <div class="card reveal" data-delay=".05"><div class="ico">Hb</div><h3>HBase</h3><p>面向列的分布式 NoSQL 数据库，适合海量数据的随机实时读写。</p><div class="tags"><span class="chip c3">列式存储</span><span class="chip c3">实时读写</span></div></div>
+      <div class="card reveal" data-delay=".1"><div class="ico">S</div><h3>Flume / Sqoop</h3><p>数据搬运工具：Flume 采集日志流，Sqoop 在关系型数据库与 HDFS 之间批量传输数据。</p><div class="tags"><span class="chip c4">采集</span><span class="chip c4">导入导出</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Spark 生态 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal"><span class="eyebrow">Ecosystem 02</span><h2>Spark 生态核心模块</h2><p>Spark 基于内存计算，速度可达 MapReduce 的数十倍，是当前主流的统一计算引擎。</p></div>
+    <div class="grid g-3">
+      <div class="card reveal"><div class="ico">SC</div><h3>Spark Core</h3><p>核心引擎，基于 RDD 弹性分布式数据集实现内存计算与容错。</p></div>
+      <div class="card reveal" data-delay=".05"><div class="ico">SQ</div><h3>Spark SQL</h3><p>结构化数据处理，支持用 SQL 与 DataFrame 查询海量数据。</p></div>
+      <div class="card reveal" data-delay=".1"><div class="ico">SS</div><h3>Spark Streaming</h3><p>流式计算，把实时数据流切成小批次进行处理，实现准实时分析。</p></div>
+    </div>
+    <div class="grid g-2" style="margin-top:22px">
+      <div class="panel reveal">
+        <div class="ph"><h3>MapReduce 词频统计思想</h3><span class="hint">分而治之的经典模型</span></div>
+        <div class="code">
+          <div class="head"><span class="d d1"></span><span class="d d2"></span><span class="d d3"></span><span class="t">wordcount · 逻辑示意</span></div>
+<span class="cm">// Map 阶段：把每行文本拆成 &lt;单词, 1&gt;</span><br>
+map(line):<br>
+&nbsp;&nbsp;<span class="kw">for</span> word <span class="kw">in</span> line.split():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;emit(word, <span class="st">1</span>)<br><br>
+<span class="cm">// Reduce 阶段：对相同 key 的计数求和</span><br>
+reduce(key, values):<br>
+&nbsp;&nbsp;<span class="kw">return</span> (key, <span class="fn">sum</span>(values))
+        </div>
+      </div>
+      <div class="panel reveal" data-delay=".08">
+        <div class="ph"><h3>Hadoop 与 Spark 对比</h3></div>
+        <table class="tbl">
+          <thead><tr><th>维度</th><th>MapReduce</th><th>Spark</th></tr></thead>
+          <tbody>
+            <tr><td>计算方式</td><td>磁盘为主</td><td>内存为主</td></tr>
+            <tr><td>中间结果</td><td>落盘 HDFS</td><td>缓存在内存</td></tr>
+            <tr><td>速度</td><td>较慢</td><td>快数十倍</td></tr>
+            <tr><td>迭代计算</td><td>不擅长</td><td>擅长</td></tr>
+            <tr><td>实时处理</td><td>不擅长</td><td>支持（Streaming）</td></tr>
+            <tr><td>适用场景</td><td>大规模离线批处理</td><td>批处理 + 迭代 + 流处理</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 课程映射 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal"><span class="eyebrow">Course Mapping</span><h2>课程映射与技能对应</h2><p>平台中的每一项技术，都对应大数据技术专业的一门核心课程，做到「学有所本、用有所依」。</p></div>
+    <div class="diagram reveal" style="margin-bottom:24px">
+      <svg viewBox="0 0 1000 520" role="img" aria-label="专业课程与技术栈对应关系示意图">
+        <defs>
+          <marker id="cmArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#93b4f5"/>
+          </marker>
+        </defs>
+        <text x="40" y="24" font-size="13" font-weight="700" fill="#1d4ed8">专业课程</text>
+        <text x="560" y="24" font-size="13" font-weight="700" fill="#0e7490">对应技术栈与能力</text>
+
+        <rect x="40" y="44" width="400" height="46" rx="12" fill="#f1f5ff" stroke="#dbe6ff"/>
+        <text x="58" y="73" font-size="13" font-weight="600" fill="#1e293b">Python 程序设计基础</text>
+        <line x1="452" y1="67" x2="550" y2="67" stroke="#93b4f5" stroke-width="2" marker-end="url(#cmArrow)"/>
+        <rect x="560" y="44" width="400" height="46" rx="12" fill="#eefaff" stroke="#cffafe"/>
+        <text x="578" y="73" font-size="12.5" font-weight="600" fill="#0f172a">Python 编程与数据处理</text>
+
+        <rect x="40" y="102" width="400" height="46" rx="12" fill="#f1f5ff" stroke="#dbe6ff"/>
+        <text x="58" y="131" font-size="13" font-weight="600" fill="#1e293b">数据库原理与 SQL 语言</text>
+        <line x1="452" y1="125" x2="550" y2="125" stroke="#93b4f5" stroke-width="2" marker-end="url(#cmArrow)"/>
+        <rect x="560" y="102" width="400" height="46" rx="12" fill="#eefaff" stroke="#cffafe"/>
+        <text x="578" y="131" font-size="12.5" font-weight="600" fill="#0f172a">SQL 查询、建模与统计分析</text>
+
+        <rect x="40" y="160" width="400" height="46" rx="12" fill="#f1f5ff" stroke="#dbe6ff"/>
+        <text x="58" y="189" font-size="13" font-weight="600" fill="#1e293b">Linux 操作系统基础</text>
+        <line x1="452" y1="183" x2="550" y2="183" stroke="#93b4f5" stroke-width="2" marker-end="url(#cmArrow)"/>
+        <rect x="560" y="160" width="400" height="46" rx="12" fill="#eefaff" stroke="#cffafe"/>
+        <text x="578" y="189" font-size="12.5" font-weight="600" fill="#0f172a">Linux 与集群环境搭建运维</text>
+
+        <rect x="40" y="218" width="400" height="46" rx="12" fill="#f1f5ff" stroke="#dbe6ff"/>
+        <text x="58" y="247" font-size="13" font-weight="600" fill="#1e293b">Hadoop 大数据生态技术与应用</text>
+        <line x1="452" y1="241" x2="550" y2="241" stroke="#93b4f5" stroke-width="2" marker-end="url(#cmArrow)"/>
+        <rect x="560" y="218" width="400" height="46" rx="12" fill="#eefaff" stroke="#cffafe"/>
+        <text x="578" y="247" font-size="12.5" font-weight="600" fill="#0f172a">HDFS · YARN · MapReduce · Hive · HBase</text>
+
+        <rect x="40" y="276" width="400" height="46" rx="12" fill="#f1f5ff" stroke="#dbe6ff"/>
+        <text x="58" y="305" font-size="13" font-weight="600" fill="#1e293b">Spark 生态技术与应用</text>
+        <line x1="452" y1="299" x2="550" y2="299" stroke="#93b4f5" stroke-width="2" marker-end="url(#cmArrow)"/>
+        <rect x="560" y="276" width="400" height="46" rx="12" fill="#eefaff" stroke="#cffafe"/>
+        <text x="578" y="305" font-size="12.5" font-weight="600" fill="#0f172a">Spark Core · Spark SQL · Streaming</text>
+
+        <rect x="40" y="334" width="400" height="46" rx="12" fill="#f1f5ff" stroke="#dbe6ff"/>
+        <text x="58" y="363" font-size="13" font-weight="600" fill="#1e293b">数据采集与清洗</text>
+        <line x1="452" y1="357" x2="550" y2="357" stroke="#93b4f5" stroke-width="2" marker-end="url(#cmArrow)"/>
+        <rect x="560" y="334" width="400" height="46" rx="12" fill="#eefaff" stroke="#cffafe"/>
+        <text x="578" y="363" font-size="12.5" font-weight="600" fill="#0f172a">数据采集、去噪与质量保障</text>
+
+        <rect x="40" y="392" width="400" height="46" rx="12" fill="#f1f5ff" stroke="#dbe6ff"/>
+        <text x="58" y="421" font-size="13" font-weight="600" fill="#1e293b">数据分析技术与应用 / 数据挖掘</text>
+        <line x1="452" y1="415" x2="550" y2="415" stroke="#93b4f5" stroke-width="2" marker-end="url(#cmArrow)"/>
+        <rect x="560" y="392" width="400" height="46" rx="12" fill="#eefaff" stroke="#cffafe"/>
+        <text x="578" y="421" font-size="12.5" font-weight="600" fill="#0f172a">统计分析与数据挖掘方法</text>
+
+        <rect x="40" y="450" width="400" height="46" rx="12" fill="#f1f5ff" stroke="#dbe6ff"/>
+        <text x="58" y="479" font-size="13" font-weight="600" fill="#1e293b">数据可视化技术</text>
+        <line x1="452" y1="473" x2="550" y2="473" stroke="#93b4f5" stroke-width="2" marker-end="url(#cmArrow)"/>
+        <rect x="560" y="450" width="400" height="46" rx="12" fill="#eefaff" stroke="#cffafe"/>
+        <text x="578" y="479" font-size="12.5" font-weight="600" fill="#0f172a">图表选型与可视化报表呈现</text>
+      </svg>
+      <span class="cap">图 1　课程映射示意图：左侧为专业课程，右侧为该课程所支撑的技术与能力</span>
+    </div>
+    <div class="panel reveal">
+      <table class="tbl">
+        <thead><tr><th>技术 / 工具</th><th>对应专业课程</th><th>核心能力</th></tr></thead>
+        <tbody>
+          <tr><td><b>Python</b></td><td>程序设计基础（Python）</td><td>编程思维与数据处理脚本</td></tr>
+          <tr><td><b>SQL / 数据库</b></td><td>数据库原理与 SQL 语言</td><td>数据查询、建模与统计分析</td></tr>
+          <tr><td><b>Linux</b></td><td>Linux 操作系统基础</td><td>服务器环境搭建与集群运维</td></tr>
+          <tr><td><b>Hadoop / HDFS / YARN</b></td><td>Hadoop 大数据生态技术与应用</td><td>分布式存储与集群资源调度</td></tr>
+          <tr><td><b>Spark / Spark SQL</b></td><td>Spark 生态技术与应用</td><td>内存计算与结构化数据处理</td></tr>
+          <tr><td><b>数据采集与清洗</b></td><td>数据采集与清洗</td><td>数据获取、去噪与质量保障</td></tr>
+          <tr><td><b>数据分析 / 挖掘</b></td><td>数据分析技术与应用 / 数据挖掘</td><td>统计分析、模型与规律发现</td></tr>
+          <tr><td><b>数据可视化</b></td><td>数据可视化技术</td><td>图表设计、报表与可视化呈现</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel reveal" data-delay=".08" style="margin-top:22px">
+      <div class="ph"><h3>专业技能描述</h3><span class="hint">依据专业核心课程整理</span></div>
+      <div class="row-list">
+        <div class="r"><span class="k">大数据平台与计算</span><span class="v">掌握 HDFS、YARN、MapReduce、Hive、HBase、Flume、Sqoop 等 Hadoop 生态组件，熟悉 Spark Core / Spark SQL / Spark Streaming 内存计算框架，能够完成集群环境搭建与海量数据的分布式处理 <small>对应《Hadoop 大数据生态技术与应用》《Spark 生态技术与应用》</small></span></div>
+        <div class="r"><span class="k">数据采集与预处理</span><span class="v">能够使用 Python 完成数据采集与预处理，包括数据去重、缺失值填充、异常值处理与字段规范化 <small>对应《数据采集与清洗》《程序设计基础（Python）》</small></span></div>
+        <div class="r"><span class="k">数据分析与挖掘</span><span class="v">能够编写 SQL 完成多表关联与分组统计，运用数据挖掘方法发现数据规律，输出面向业务的洞察 <small>对应《数据分析技术与应用》《数据挖掘技术与应用》《数据库原理与 SQL 语言》</small></span></div>
+        <div class="r"><span class="k">数据可视化</span><span class="v">能够依据业务场景选择合适的图表类型，独立完成统计报表与可视化呈现的设计与制作 <small>对应《数据可视化技术》</small></span></div>
+        <div class="r"><span class="k">开发与系统基础</span><span class="v">能够操作 Linux 环境、设计规范的关系型数据库，并完成简单前后端应用开发 <small>对应《Linux 操作系统基础》《数据库原理与 SQL 语言》《Web 前后端技术与应用》</small></span></div>
+        <div class="r"><span class="k">项目实训</span><span class="v">完成数据分析与挖掘项目实践、数仓项目实践，具备「采集 → 清洗 → 分析 → 可视化」完整数据链路的实操能力 <small>对应「项目实践 / 综合实训」</small></span></div>
+      </div>
+      <div class="callout ok" style="margin-top:18px">以上技能描述与本专业官方核心课程一一对应，可作为专业能力自评与个人能力陈述的依据——课程在变，能力主线不变。</div>
+    </div>
+
+    <div class="panel reveal" data-delay=".1" style="margin-top:22px">
+      <div class="ph"><h3>课程与技能映射</h3><span class="hint">主修课程与技术栈概览</span></div>
+      <div class="grid g-2">
+        <div>
+          <div style="font-weight:700;font-size:14px;margin-bottom:8px">主修课程</div>
+          <div class="row-list">
+            <div class="r"><span class="k">专业核心课</span><span class="v">Hadoop 大数据生态技术与应用、Spark 生态技术与应用、数据采集与清洗、数据分析技术与应用、数据可视化技术、数据挖掘技术与应用</span></div>
+            <div class="r"><span class="k">专业基础课</span><span class="v">Python 程序设计基础、数据库原理与 SQL 语言、Linux 操作系统基础、Web 前端 / 后端技术与应用</span></div>
+            <div class="r"><span class="k">项目实训</span><span class="v">数据分析与挖掘项目实践、数仓项目实践</span></div>
+            <div class="r"><span class="k">公共基础</span><span class="v">大学英语、形势与政策</span></div>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:14px;margin-bottom:8px">大数据技术栈</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span class="chip">Python</span>
+            <span class="chip">SQL / 数据库</span>
+            <span class="chip">Linux</span>
+            <span class="chip">Hadoop</span>
+            <span class="chip">Spark</span>
+            <span class="chip c2">数据采集与清洗</span>
+            <span class="chip c2">数据分析</span>
+            <span class="chip c3">数据可视化</span>
+            <span class="chip c3">数据挖掘</span>
+            <span class="chip c4">数据仓库</span>
+          </div>
+        </div>
+      </div>
+      </div>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container" style="display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap">
+    <a class="btn btn-blue" href="concept.html">← 上一模块：认知基础</a>
+    <a class="btn btn-blue" href="pipeline.html">下一模块：数据处理流程 →</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="cols">
+      <div>
+        <a class="brand" href="index.html"><span class="logo">π</span><span>大数据认知平台</span></a>
+        <p style="margin-top:14px">面向大数据技术专业的知识认知与学以致用平台，由数智科技产业学院大数据技术专业学生自主设计与实现。</p>
+      </div>
+      <div><h4>知识模块</h4><a href="concept.html">认知基础</a><a href="techstack.html">技术栈与架构</a><a href="pipeline.html">数据处理流程</a><a href="practice.html">实践案例</a></div>
+      <div><h4>关于</h4><a href="lab.html">动手实验</a><a href="cases.html">行业应用</a><a href="about.html">平台与作者</a></div>
+    </div>
+    <div class="bottom">© 2026 大数据认知平台 · 石梦真 · 数智科技产业学院大数据技术专业　|　一个学生做的知识站，发现错误欢迎指出</div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

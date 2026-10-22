@@ -1,0 +1,440 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>动手实验室 · 大数据认知平台</title>
+<meta name="description" content="三个可以在浏览器里直接动手的大数据小实验：MapReduce 词频统计、数据清洗台、数据量级感受器，全部用原生 JavaScript 实现。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563eb'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23ffffff' font-family='Georgia,serif' font-weight='bold'%3Eπ%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container">
+    <a class="brand" href="index.html"><span class="logo">π</span><span>大数据认知平台<small>BIG DATA COGNITION</small></span></a>
+    <button class="hamburger" aria-label="菜单"><i></i><i></i><i></i></button>
+    <div class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="concept.html">认知基础</a>
+      <a href="techstack.html">技术栈</a>
+      <a href="pipeline.html">数据流程</a>
+      <a href="practice.html">实践案例</a>
+      <a href="lab.html">动手实验</a>
+      <a href="cases.html">行业应用</a>
+      <a href="about.html">关于</a>
+    </div>
+  </div>
+</nav>
+
+<header class="banner">
+  <div class="container">
+    <div class="crumb"><a href="index.html">首页</a> / 动手实验室</div>
+    <h1>动手实验室</h1>
+    <p>看十遍不如跑一遍。这里的三个小实验都直接在浏览器里运行，不需要装任何环境——试试你自己动手，把概念变成手感。</p>
+  </div>
+</header>
+
+<!-- 实验一：MapReduce 词频统计 -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Lab 01 · MapReduce</span>
+      <h2>词频统计器：亲手跑一遍 Map → Shuffle → Reduce</h2>
+      <p>词频统计是大数据的「Hello World」。下面这个实验把 MapReduce 的三阶段搬进了浏览器：点「运行统计」，亲眼看一段文本怎么被切碎、归组、再汇总。你也可以粘贴自己的文字进去玩。</p>
+    </div>
+    <div class="grid g-2" style="align-items:start">
+      <div class="panel reveal">
+        <div class="ph"><h3>输入文本</h3><span class="hint">默认是朱自清《匆匆》节选（公版）</span></div>
+        <textarea id="wc-input" class="lab-textarea" rows="7" spellcheck="false">燕子去了，有再来的时候；杨柳枯了，有再青的时候；桃花谢了，有再开的时候。但是，聪明的，你告诉我，我们的日子为什么一去不复返呢？
+过去的日子如轻烟，被微风吹散了，如薄雾，被初阳蒸融了。我留着些什么痕迹呢？我何曾留着像游丝样的痕迹呢？</textarea>
+        <div class="lab-controls">
+          <span class="lab-label">切分粒度</span>
+          <label class="lab-radio"><input type="radio" name="wc-gram" value="1" checked><span>单字</span></label>
+          <label class="lab-radio"><input type="radio" name="wc-gram" value="2"><span>二字组合</span></label>
+          <label class="lab-check"><input type="checkbox" id="wc-stop" checked><span>过滤虚词（的了在…）</span></label>
+        </div>
+        <div class="lab-controls">
+          <button class="btn btn-blue" id="wc-run">运行统计</button>
+          <button class="btn btn-ghost2" id="wc-reset">恢复默认文本</button>
+        </div>
+        <div class="callout" style="margin-top:18px;font-size:13px">试试点「二字组合」再运行：像「有再」「时候」会被整体切出来，但也会冒出「有再」这种奇怪组合——<b>中文没有空格，切词本身就是难题</b>，真实工程里要用 jieba 这类分词器解决。这个小麻烦，正是这个实验想让你亲手撞上的。</div>
+      </div>
+      <div class="reveal" data-delay=".08">
+        <div class="lab-stages">
+          <div class="stage-box" id="wc-map">
+            <span class="stage-tag t-blue">Map · 映射</span>
+            <div class="stage-body"><span class="stage-dim">等待运行…</span></div>
+          </div>
+          <div class="stage-arrow">↓</div>
+          <div class="stage-box" id="wc-shuffle">
+            <span class="stage-tag t-cyan">Shuffle · 归并</span>
+            <div class="stage-body"><span class="stage-dim">等待运行…</span></div>
+          </div>
+          <div class="stage-arrow">↓</div>
+          <div class="stage-box" id="wc-reduce">
+            <span class="stage-tag t-green">Reduce · 归约 → Top 10</span>
+            <div class="stage-body"><span class="stage-dim">等待运行…</span></div>
+          </div>
+        </div>
+        <p class="lab-note" id="wc-note"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 实验二：数据清洗台 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Lab 02 · Data Cleaning</span>
+      <h2>数据清洗台：12 条脏数据，你能洗出几条可用的？</h2>
+      <p>这批「乡村电商订单」数据混着重复、缺失、异常和格式混乱——和我在竞赛里处理的真实数据毛病一模一样。开关下面的清洗规则，观察每条规则各自救回了多少数据；全部关掉，再看看原始数据有多没法用。</p>
+    </div>
+    <div class="panel reveal">
+      <div class="lab-controls" style="flex-wrap:wrap">
+        <span class="lab-label">清洗规则</span>
+        <label class="lab-check"><input type="checkbox" id="r-dedup" checked><span>按订单号去重</span></label>
+        <label class="lab-check"><input type="checkbox" id="r-fill" checked><span>缺失金额用中位数填充</span></label>
+        <label class="lab-check"><input type="checkbox" id="r-outlier" checked><span>剔除异常记录</span></label>
+        <label class="lab-check"><input type="checkbox" id="r-norm" checked><span>统一省份与日期格式</span></label>
+        <span class="lab-stat" id="cl-stat"></span>
+      </div>
+      <div style="overflow-x:auto;margin-top:14px">
+        <table class="tbl lab-table" id="cl-table">
+          <thead><tr><th>订单号</th><th>省份</th><th>品类</th><th>金额（元）</th><th>日期</th><th>数据问题</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="callout ok" style="margin-top:16px">清洗不是「删到只剩干净的」：去重保真、填充救缺失、异常才剔除、格式修一修——<b>每一条数据都值得先抢救一下</b>。这套动作和 <a href="practice.html" style="color:var(--primary);font-weight:600">实践案例</a> 里的 clean_data.py 是同一套逻辑。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 实验三：数据量级感受器 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Lab 03 · Scale</span>
+      <h2>数据量级感受器：PB 到底有多大？</h2>
+      <p>「海量」「PB 级」这类词说多了会麻木。拖一拖下面的滑块，把抽象的单位换算成电影、照片和下载时间——你会对「大数据到底多大」重新有感觉。</p>
+    </div>
+    <div class="panel reveal">
+      <div class="lab-controls">
+        <span class="lab-label">数据总量</span>
+        <input type="range" id="sc-num" min="1" max="999" value="1" class="lab-range">
+        <input type="number" id="sc-show" min="1" max="999" value="1" class="lab-num">
+        <select id="sc-unit" class="lab-select">
+          <option value="GB">GB</option>
+          <option value="TB">TB</option>
+          <option value="PB">PB</option>
+          <option value="EB">EB</option>
+          <option value="ZB">ZB</option>
+        </select>
+      </div>
+      <div class="lab-controls" style="flex-wrap:wrap">
+        <span class="lab-label">试试这些锚点</span>
+        <button class="lab-anchor" data-v="2" data-u="GB">一部 1080p 电影 · 2GB</button>
+        <button class="lab-anchor" data-v="1" data-u="TB">一块移动硬盘 · 1TB</button>
+        <button class="lab-anchor" data-v="1" data-u="PB">一个中型数据中心 · 约 1PB</button>
+        <button class="lab-anchor" data-v="175" data-u="ZB">2025 年全球数据量（IDC 预测）· 175ZB</button>
+      </div>
+      <div class="scale-cards" style="margin-top:20px">
+        <div class="scale-card"><div class="sc-n" id="sc-movie">—</div><div class="sc-l">部 1080p 电影<small>每部约 2GB</small></div></div>
+        <div class="scale-card"><div class="sc-n" id="sc-photo">—</div><div class="sc-l">张手机照片<small>每张约 5MB</small></div></div>
+        <div class="scale-card"><div class="sc-n" id="sc-book">—</div><div class="sc-l">本《红楼梦》全文<small>纯文本约 2.5MB</small></div></div>
+        <div class="scale-card"><div class="sc-n" id="sc-time">—</div><div class="sc-l">100M 宽带下完这些<small>理论满速、不眠不休</small></div></div>
+      </div>
+      <p class="lab-note" id="sc-note"></p>
+    </div>
+  </div>
+</section>
+
+<!-- 实现说明 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="grid g-3">
+      <div class="card reveal"><div class="ico">01</div><h3>三个实验，一百多行 JS</h3><p>实验没有用任何图表库或框架，全部用原生 JavaScript 手写。词频统计器的核心逻辑不到 40 行——和 practice 页的 MapReduce 思路完全同构。</p><div class="tags"><span class="chip">原生 JS</span><span class="chip c2">零依赖</span></div></div>
+      <div class="card reveal" data-delay=".05"><div class="ico">02</div><h3>为什么这样设计</h3><p>认知平台的关键不是「讲得多全」，而是让人有机会动手。三个实验分别对应 5V 中的量级感知、流程中的清洗环节、技术栈中的 MapReduce。</p><div class="tags"><span class="chip c3">体验式学习</span><span class="chip c4">课程对应</span></div></div>
+      <div class="card reveal" data-delay=".1"><div class="ico">03</div><h3>想深入怎么办</h3><p>实验只是开始：词频统计跑通后，去实践案例页看真正的 Java 版 WordCount；清洗规则玩熟后，试着用 Python 把清洗台重写一遍。</p><div class="tags"><span class="chip">进阶路径</span><span class="chip c2">延伸阅读</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container" style="display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap">
+    <a class="btn btn-blue" href="practice.html">← 上一模块：学以致用实践案例</a>
+    <a class="btn btn-blue" href="cases.html">下一模块：行业应用场景 →</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="cols">
+      <div>
+        <a class="brand" href="index.html"><span class="logo">π</span><span>大数据认知平台</span></a>
+        <p style="margin-top:14px">面向大数据技术专业的知识认知与学以致用平台，由数智科技产业学院大数据技术专业学生自主设计与实现。</p>
+      </div>
+      <div>
+        <h4>知识模块</h4>
+        <a href="concept.html">认知基础</a>
+        <a href="techstack.html">技术栈与架构</a>
+        <a href="pipeline.html">数据处理流程</a>
+        <a href="practice.html">实践案例</a>
+      </div>
+      <div>
+        <h4>关于</h4>
+        <a href="lab.html">动手实验</a>
+        <a href="cases.html">行业应用</a>
+        <a href="about.html">平台与作者</a></div>
+    </div>
+    <div class="bottom">© 2026 大数据认知平台 · 数智科技产业学院 · 大数据技术专业　|　学以致用，知行合一</div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script>
+/* =========================================================
+   动手实验室 · 页面专属脚本（原生 JS，无依赖）
+   ========================================================= */
+(function () {
+  'use strict';
+
+  /* ---------- 实验一：MapReduce 词频统计 ---------- */
+  var WC_DEFAULT = document.getElementById('wc-input').value;
+  // 虚词表只收最常用的单字与个别双字词；《匆匆》里的「日子」「痕迹」不在表内——
+  // 它们是文章的题眼，应该出现在 Top 榜上，这也是统计结果讲故事的例子
+  var STOP = new Set(('的 了 在 是 我 有 和 就 人 都 说 一 到 那 你 要 着 也 不 这 而 个 上 来 去 会 们 中 时 得 被 把 让 从 对 以 为 于 其 他 她 它 什么 我们 但是 为什么 呢 么 与 及 或 等 像 如 却 又 才 只 还 没 很 再 已 曾 正').split(/\s+/));
+
+  function isCN(ch) { return /[\u4e00-\u9fa5]/.test(ch); }
+
+  function tokenize(text, gram, useStop) {
+    var tokens = [], re = /[a-zA-Z0-9]+|[\u4e00-\u9fa5]/g, m;
+    while ((m = re.exec(text)) !== null) {
+      tokens.push(/[a-zA-Z0-9]/.test(m[0]) ? m[0].toLowerCase() : m[0]);
+    }
+    if (gram === 2) {                       // 中文按二字组合，英文单词保持整体
+      var out = [], i = 0;
+      while (i < tokens.length) {
+        if (isCN(tokens[i]) && i + 1 < tokens.length && isCN(tokens[i + 1])) {
+          out.push(tokens[i] + tokens[i + 1]); i += 2;
+        } else { out.push(tokens[i]); i += 1; }
+      }
+      tokens = out;
+    }
+    if (useStop) tokens = tokens.filter(function (t) { return !STOP.has(t); });
+    return tokens;
+  }
+
+  function runWC() {
+    var text = document.getElementById('wc-input').value;
+    var gram = +document.querySelector('input[name="wc-gram"]:checked').value;
+    var useStop = document.getElementById('wc-stop').checked;
+    var tokens = tokenize(text, gram, useStop);
+    var mapBox = document.querySelector('#wc-map .stage-body');
+    var shufBox = document.querySelector('#wc-shuffle .stage-body');
+    var redBox = document.querySelector('#wc-reduce .stage-body');
+    var note = document.getElementById('wc-note');
+
+    if (!tokens.length) {
+      mapBox.innerHTML = shufBox.innerHTML = redBox.innerHTML =
+        '<span class="stage-dim">没有可统计的内容——换段文字试试。</span>';
+      note.textContent = ''; return;
+    }
+
+    // Map：切片出 (token, 1)
+    var pairs = tokens.map(function (t) { return [t, 1]; });
+    mapBox.innerHTML = pairs.slice(0, 12).map(function (p) {
+      return '<span class="tok">(' + p[0] + ', 1)</span>';
+    }).join('') + (pairs.length > 12 ? '<span class="tok more">… 共 ' + pairs.length + ' 个</span>' : '');
+
+    // Shuffle：相同 key 归到一组
+    var groups = {}, order = [];
+    pairs.forEach(function (p) {
+      if (!groups[p[0]]) { groups[p[0]] = []; order.push(p[0]); }
+      groups[p[0]].push(1);
+    });
+    setTimeout(function () {
+      shufBox.innerHTML = order.slice(0, 6).map(function (k) {
+        return '<span class="tok">' + k + ' ← ' + groups[k].length + ' 个 1</span>';
+      }).join('') + (order.length > 6 ? '<span class="tok more">… 共 ' + order.length + ' 组</span>' : '');
+    }, 500);
+
+    // Reduce：组内求和 → 排序 → Top 10
+    var counts = order.map(function (k) { return [k, groups[k].length]; });
+    counts.sort(function (a, b) { return b[1] - a[1]; });
+    var top = counts.slice(0, 10), max = top.length ? top[0][1] : 1;
+    setTimeout(function () {
+      redBox.innerHTML = '<div class="mini-bars">' + top.map(function (c, i) {
+        var w = Math.max(8, Math.round(c[1] / max * 100));
+        return '<div class="mb-row"><span class="mb-k">' + c[0] + '</span>' +
+          '<span class="mb-track"><span class="mb-fill" style="width:0"></span></span>' +
+          '<span class="mb-v">' + c[1] + '</span></div>';
+      }).join('') + '</div>';
+      // 条形动画
+      var fills = redBox.querySelectorAll('.mb-fill');
+      top.forEach(function (c, i) {
+        setTimeout(function () { fills[i].style.width = Math.max(8, Math.round(c[1] / max * 100)) + '%'; }, 40 * i);
+      });
+    }, 1050);
+
+    var topSum = counts.slice(0, 10).reduce(function (s, c) { return s + c[1]; }, 0);
+    note.textContent = '统计口径：共切出 ' + tokens.length + ' 个 token、' + order.length +
+      ' 个不同词；Top10 覆盖了 ' + Math.round(topSum / tokens.length * 100) + '% 的出现次数' +
+      '——这正是「价值密度低」的直观体现：少数高频词占了大部分，剩下的才是有信息量的长尾。';
+  }
+
+  document.getElementById('wc-run').addEventListener('click', runWC);
+  document.getElementById('wc-reset').addEventListener('click', function () {
+    document.getElementById('wc-input').value = WC_DEFAULT;
+  });
+
+  /* ---------- 实验二：数据清洗台 ---------- */
+  // 原始 12 条订单：故意混进真实项目里最常见的四类毛病
+  var RAW = [
+    { id: 'A1001', prov: '山东省', cat: '苹果',   amt: 128.5, date: '2024-01-05', dirty: {} },
+    { id: 'A1002', prov: '河南',   cat: '山药',   amt: 96,    date: '2024/1/5',   dirty: { prov: '省份简称', date: '日期格式' } },
+    { id: 'A1003', prov: '山东省', cat: '苹果',   amt: 128.5, date: '2024-01-05', dirty: { id: '与 A1001 重复' } },
+    { id: 'A1004', prov: '四川省', cat: '花椒',   amt: null,  date: '2024-01-06', dirty: { amt: '金额缺失' } },
+    { id: 'A1010', prov: '江苏省', cat: '大米',   amt: 99999, date: '2024-01-06', dirty: { amt: '疑似小数点错位' } },
+    { id: 'A1006', prov: '山东',   cat: '花生油', amt: 215,   date: '2024/1/7',   dirty: { prov: '省份简称', date: '日期格式' } },
+    { id: 'A1007', prov: '河南省', cat: '香菇',   amt: 87.5,  date: '2024-01-07', dirty: {} },
+    { id: 'A1008', prov: '河北省', cat: '鸭梨',   amt: 66,    date: '2024-01-08', dirty: {} },
+    { id: 'A1009', prov: '河北省', cat: '鸭梨',   amt: 66,    date: '2024-01-08', dirty: { id: '与 A1008 重复' } },
+    { id: 'A1011', prov: '广东省', cat: '荔枝干', amt: -30,   date: '2024-01-08', dirty: { amt: '负数金额' } },
+    { id: 'A1012', prov: '四川省', cat: '茶叶',   amt: 156,   date: '2024-13-01', dirty: { date: '非法日期（13月）' } },
+    { id: 'A1013', prov: '浙江省', cat: '丝绸',   amt: 420,   date: '2024-01-09', dirty: {} }
+  ];
+  // 有效金额（去掉缺失/负数/疑似错位后）排序取中位数：66,66,87.5,96,128.5,128.5,156,215,420 → 128.5
+  var FILL_MEDIAN = 128.5;
+  var PROV_FIX = { '河南': '河南省', '山东': '山东省' };
+
+  function fixDate(d) {
+    var m = d.match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})$/);
+    if (!m) return d;
+    return m[1] + '-' + ('0' + m[2]).slice(-2) + '-' + ('0' + m[3]).slice(-2);
+  }
+  function isBadDate(d) {
+    var m = d.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    return !m || +m[2] > 12 || +m[3] > 31;
+  }
+
+  function renderClean() {
+    var on = {
+      dedup: document.getElementById('r-dedup').checked,
+      fill: document.getElementById('r-fill').checked,
+      outlier: document.getElementById('r-outlier').checked,
+      norm: document.getElementById('r-norm').checked
+    };
+    var tbody = document.querySelector('#cl-table tbody');
+    var seen = {}; var stats = { dup: 0, out: 0, fill: 0, norm: 0 }; var keep = 0;
+    var html = '';
+
+    RAW.forEach(function (r) {
+      var row = { id: r.id, prov: r.prov, cat: r.cat, amt: r.amt, date: r.date };
+      var marks = [], gone = false;
+
+      // 规则 4：格式统一（先修正，后面的规则基于修好的值判断）
+      var normCells = {};
+      if (on.norm) {
+        if (PROV_FIX[row.prov]) { normCells.prov = row.prov; row.prov = PROV_FIX[row.prov]; stats.norm += 1; }
+        if (/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(row.date)) { normCells.date = row.date; row.date = fixDate(row.date); }
+      }
+
+      // 规则 3：剔除异常（负金额、超万元、非法日期）
+      if (on.outlier && (row.amt < 0 || row.amt >= 10000 || isBadDate(row.date))) { gone = true; stats.out += 1; }
+
+      // 规则 1：去重（同订单号第二次出现）
+      if (!gone && on.dedup) {
+        if (seen[row.id]) { gone = true; stats.dup += 1; } else { seen[row.id] = true; }
+      }
+
+      // 规则 2：缺失填充
+      var filled = false;
+      if (on.fill && row.amt === null) { row.amt = FILL_MEDIAN; filled = true; stats.fill += 1; }
+
+      if (gone) keep += 0; else keep += 1;
+
+      // 单元格渲染
+      function cell(v, changed, tag) {
+        var cls = changed ? ' class="cell-fixed"' : '';
+        var extra = tag ? ' <i class="fix-tag">' + tag + '</i>' : '';
+        return '<td' + cls + '>' + (v === null ? '—' : v) + extra + '</td>';
+      }
+      html += '<tr' + (gone ? ' class="row-gone"' : '') + '>' +
+        cell(row.id, false) +
+        cell(row.prov, !!normCells.prov, normCells.prov ? '已补全' : '') +
+        cell(row.cat, false) +
+        cell(row.amt === null ? null : row.amt, filled, filled ? '中位数填充' : '') +
+        cell(row.date, !!normCells.date, normCells.date ? '已规范' : '') +
+        '<td>' + Object.keys(r.dirty).map(function (k) {
+          return '<i class="issue-tag">' + r.dirty[k] + '</i>';
+        }).join('') + (gone ? '<i class="issue-tag rm">已处理</i>' : '') + '</td></tr>';
+    });
+
+    tbody.innerHTML = html;
+    document.getElementById('cl-stat').textContent =
+      '原始 12 条 → 当前 ' + keep + ' 条　·　去重 ' + stats.dup + ' · 剔除 ' + stats.out +
+      ' · 填充 ' + stats.fill + ' · 格式修正 ' + stats.norm + ' 行';
+  }
+  ['r-dedup', 'r-fill', 'r-outlier', 'r-norm'].forEach(function (id) {
+    document.getElementById(id).addEventListener('change', renderClean);
+  });
+
+  /* ---------- 实验三：数据量级感受器 ---------- */
+  var UNIT_POW = { GB: 9, TB: 12, PB: 15, EB: 18, ZB: 21 };   // 10^n 字节（按十进制口径，教学足够）
+
+  function fmtCount(n) {
+    if (n < 1e4) return Math.round(n).toLocaleString('zh-CN');
+    if (n < 1e8) return (n / 1e4).toFixed(1) + ' 万';
+    if (n < 1e12) return (n / 1e8).toFixed(1) + ' 亿';
+    if (n < 1e16) return (n / 1e12).toFixed(1) + ' 万亿';
+    if (n < 1e20) return (n / 1e16).toFixed(1) + ' 亿亿';
+    return n.toExponential(1);
+  }
+  function fmtDuration(sec) {
+    if (sec < 60) return Math.round(sec) + ' 秒';
+    if (sec < 3600) return (sec / 60).toFixed(1) + ' 分钟';
+    if (sec < 86400) return (sec / 3600).toFixed(1) + ' 小时';
+    if (sec < 86400 * 365) return (sec / 86400).toFixed(1) + ' 天';
+    return fmtCount(sec / (86400 * 365)) + ' 年';
+  }
+  function renderScale() {
+    var n = Math.max(1, Math.min(999, +document.getElementById('sc-num').value || 1));
+    var u = document.getElementById('sc-unit').value;
+    var bytes = n * Math.pow(10, UNIT_POW[u]);
+    document.getElementById('sc-show').value = n;
+    document.getElementById('sc-movie').textContent = fmtCount(bytes / (2 * 1e9));
+    document.getElementById('sc-photo').textContent = fmtCount(bytes / (5 * 1e6));
+    document.getElementById('sc-book').textContent = fmtCount(bytes / (2.5 * 1e6));
+    document.getElementById('sc-time').textContent = fmtDuration(bytes * 8 / 1e8);
+
+    var note = document.getElementById('sc-note');
+    if (u === 'ZB' && n >= 175) {
+      note.textContent = 'IDC 预测 2025 年全球数据总量约 175ZB——把它换成 2GB 一部的电影，能从头放到尾放 ' +
+        fmtCount(175 * Math.pow(10, 21) / 2e9) + ' 部。所谓「数据洪流」，就是这个量级。';
+    } else if (u === 'PB') {
+      note.textContent = '到了 PB 级，单块硬盘已经装不下了——这正是为什么存储要「分布」到成百上千台机器（HDFS），计算要「搬」到数据旁边（MapReduce/Spark）。';
+    } else {
+      note.textContent = '换算口径：按十进制（1TB = 10¹² 字节），文件大小取常见估计值，重在感受量级，不必抠精确。';
+    }
+  }
+  document.getElementById('sc-num').addEventListener('input', renderScale);
+  document.getElementById('sc-unit').addEventListener('change', renderScale);
+  document.querySelectorAll('.lab-anchor').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.getElementById('sc-num').value = b.getAttribute('data-v');
+      document.getElementById('sc-unit').value = b.getAttribute('data-u');
+      renderScale();
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    renderClean();
+    renderScale();
+    runWC();          // 首屏先自动跑一遍，给个直观印象
+  });
+})();
+</script>
+</body>
+</html>

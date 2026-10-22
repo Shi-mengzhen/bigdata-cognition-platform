@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>认知基础 · 大数据认知平台</title>
+<meta name="description" content="大数据认知基础：什么是大数据、5V 核心特征、发展历程与数据类型，建立对大数据的第一认知。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563eb'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23ffffff' font-family='Georgia,serif' font-weight='bold'%3Eπ%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container">
+    <a class="brand" href="index.html"><span class="logo">π</span><span>大数据认知平台<small>BIG DATA COGNITION</small></span></a>
+    <button class="hamburger" aria-label="菜单"><i></i><i></i><i></i></button>
+    <div class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="concept.html">认知基础</a>
+      <a href="techstack.html">技术栈</a>
+      <a href="pipeline.html">数据流程</a>
+      <a href="practice.html">实践案例</a>
+      <a href="lab.html">动手实验</a>
+      <a href="cases.html">行业应用</a>
+      <a href="about.html">关于</a>
+    </div>
+  </div>
+</nav>
+
+<header class="banner">
+  <div class="container">
+    <div class="crumb"><a href="index.html">首页</a> / 认知基础</div>
+    <h1>大数据认知基础</h1>
+    <p>从「什么是大数据」出发，理解它的特征、来源与发展脉络，建立对大数据的第一层认知。</p>
+  </div>
+</header>
+
+<!-- 什么是大数据 -->
+<section class="section">
+  <div class="container">
+    <div class="grid g-2" style="align-items:center">
+      <div class="reveal">
+        <div class="section-head" style="margin-bottom:18px">
+          <span class="eyebrow">What is Big Data</span>
+          <h2>什么是大数据？</h2>
+        </div>
+        <p style="color:var(--ink-2)">大数据（Big Data）指无法在可接受的时间内，用常规软件工具进行捕捉、管理和处理的数据集合。
+          它不仅是「数据量大」，更强调数据产生的速度快、种类多，以及必须借助<b>新的处理模式</b>才能挖掘出价值。</p>
+        <div class="callout" style="margin-top:18px">
+          一句话概括：大数据 = 海量数据 + 新型处理技术 + 价值挖掘能力。
+        </div>
+        <div class="row-list" style="margin-top:22px">
+          <div class="r"><span class="k">战略意义</span><span class="v">通过对海量数据的专业化处理，实现数据的「增值」，为国家治理与企业决策提供支撑。</span></div>
+          <div class="r"><span class="k">技术本质</span><span class="v">分布式存储与并行计算，用「普通机器集群」替代「超级计算机」。</span></div>
+        </div>
+      </div>
+      <div class="panel reveal" data-delay=".08">
+        <div class="ph"><h3>数据规模演进</h3><span class="hint">从小数据到大数据</span></div>
+        <table class="tbl">
+          <thead><tr><th>层级</th><th>典型规模</th><th>处理方式</th></tr></thead>
+          <tbody>
+            <tr><td>字节 B</td><td>1 字节</td><td>单个字符</td></tr>
+            <tr><td>千字节 KB</td><td>10³</td><td>一页文本</td></tr>
+            <tr><td>兆字节 MB</td><td>10⁶</td><td>一张照片</td></tr>
+            <tr><td>吉字节 GB</td><td>10⁹</td><td>一部电影</td></tr>
+            <tr><td>太字节 TB</td><td>10¹²</td><td>单机数据库上限</td></tr>
+            <tr><td>拍字节 PB</td><td>10¹⁵</td><td><b>进入大数据范畴</b></td></tr>
+            <tr><td>艾字节 EB</td><td>10¹⁸</td><td>互联网级数据</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5V -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">The 5 V's</span>
+      <h2>大数据的 5V 特征</h2>
+      <p style="margin-left:auto;margin-right:auto">5V 是大数据最经典、也最重要的认知框架。</p>
+    </div>
+    <div class="diagram reveal" style="margin-bottom:26px">
+      <svg viewBox="0 0 1000 420" role="img" aria-label="大数据 5V 特征关系示意图">
+        <ellipse cx="500" cy="210" rx="332" ry="154" fill="none" stroke="#dbe6ff" stroke-width="2" stroke-dasharray="6 8"/>
+        <g stroke="#c7d7f5" stroke-width="2" stroke-dasharray="4 6">
+          <line x1="500" y1="210" x2="500" y2="62"/>
+          <line x1="500" y1="210" x2="810" y2="164"/>
+          <line x1="500" y1="210" x2="690" y2="330"/>
+          <line x1="500" y1="210" x2="310" y2="330"/>
+          <line x1="500" y1="210" x2="190" y2="164"/>
+        </g>
+        <circle cx="500" cy="210" r="66" fill="#0f172a"/>
+        <text x="500" y="205" text-anchor="middle" fill="#ffffff" font-size="17" font-weight="700">大数据</text>
+        <text x="500" y="228" text-anchor="middle" fill="#93c5fd" font-size="14" font-weight="700">5V 特征</text>
+        <g>
+          <circle cx="500" cy="58" r="52" fill="#2563eb"/>
+          <text x="500" y="52" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">Volume</text>
+          <text x="500" y="74" text-anchor="middle" fill="#dbeafe" font-size="13">规模大</text>
+        </g>
+        <g>
+          <circle cx="814" cy="164" r="52" fill="#0891b2"/>
+          <text x="814" y="158" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">Velocity</text>
+          <text x="814" y="180" text-anchor="middle" fill="#cffafe" font-size="13">速度快</text>
+        </g>
+        <g>
+          <circle cx="694" cy="332" r="52" fill="#7c3aed"/>
+          <text x="694" y="326" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">Variety</text>
+          <text x="694" y="348" text-anchor="middle" fill="#ede9fe" font-size="13">种类多</text>
+        </g>
+        <g>
+          <circle cx="306" cy="332" r="52" fill="#f59e0b"/>
+          <text x="306" y="326" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">Veracity</text>
+          <text x="306" y="348" text-anchor="middle" fill="#fef3c7" font-size="13">真实性</text>
+        </g>
+        <g>
+          <circle cx="186" cy="164" r="52" fill="#4f46e5"/>
+          <text x="186" y="158" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">Value</text>
+          <text x="186" y="180" text-anchor="middle" fill="#e0e7ff" font-size="13">价值密度低</text>
+        </g>
+      </svg>
+      <span class="cap">图 1　5V 之间的关系：规模与速度决定「数据有多大、多快」，种类与真实性决定「数据好不好用」，价值是最终目标</span>
+    </div>
+    <div class="grid g-3">
+      <div class="card reveal"><div class="ico">V</div><h3>Volume · 规模大</h3><p>数据体量从 TB 到 PB、EB 级，远超传统数据库处理能力，需要分布式存储来承载。</p><div class="tags"><span class="chip">HDFS</span><span class="chip c2">分布式存储</span></div></div>
+      <div class="card reveal" data-delay=".05"><div class="ico">V</div><h3>Velocity · 速度快</h3><p>数据高速产生、高速流入，要求近实时或实时的采集与计算能力。</p><div class="tags"><span class="chip">实时采集</span><span class="chip c2">Spark Streaming</span></div></div>
+      <div class="card reveal" data-delay=".1"><div class="ico">V</div><h3>Variety · 种类多</h3><p>结构化、半结构化、非结构化数据并存，格式差异大，需要统一的处理框架。</p><div class="tags"><span class="chip">Hive</span><span class="chip c3">HBase</span></div></div>
+      <div class="card reveal"><div class="ico">V</div><h3>Veracity · 真实性</h3><p>数据质量参差不齐，存在噪声、缺失与异常，需要通过数据清洗保障可信度。</p><div class="tags"><span class="chip c4">数据清洗</span><span class="chip">数据治理</span></div></div>
+      <div class="card reveal" data-delay=".05"><div class="ico">V</div><h3>Value · 价值密度低</h3><p>海量数据中真正有价值的信息占比低，需通过分析、挖掘把「数据」提炼为「价值」。</p><div class="tags"><span class="chip">数据分析</span><span class="chip c3">数据挖掘</span></div></div>
+      <div class="card reveal" data-delay=".1" style="background:linear-gradient(120deg,#eef4ff,#f7faff);border-color:#cfe0ff">
+        <div class="ico">5V</div><h3>五个特征的关系</h3><p>规模与速度决定「数据有多大、多快」，种类与真实性决定「数据好不好用」，价值则是终极目标。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 数据类型 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal"><span class="eyebrow">Data Types</span><h2>大数据的三种数据类型</h2></div>
+    <div class="grid g-3">
+      <div class="card reveal"><div class="ico">S</div><h3>结构化数据</h3><p>有固定格式与字段定义，可直接存入关系型数据库，如订单表、成绩单。约占数据总量的 10%（IDC 估计）。</p><div class="tags"><span class="chip">数据表</span><span class="chip">字段约束</span></div></div>
+      <div class="card reveal" data-delay=".05"><div class="ico">H</div><h3>半结构化数据</h3><p>有一定结构但不严格，如 JSON、XML、日志文件。约占 10%。</p><div class="tags"><span class="chip c2">JSON</span><span class="chip c2">XML</span></div></div>
+      <div class="card reveal" data-delay=".1"><div class="ico">U</div><h3>非结构化数据</h3><p>无固定结构，如文本、图片、音频、视频。IDC 估计约占 80%，是大数据的主要来源，也是传统数据库处理不了的部分。</p><div class="tags"><span class="chip c3">文本</span><span class="chip c3">图像</span><span class="chip c3">音视频</span></div></div>
+    </div>
+    <div class="panel reveal" style="margin-top:22px">
+      <div class="ph"><h3>三类数据占比</h3><span class="hint">来源：IDC 对全球数据构成的长期估计</span></div>
+      <div class="donut" data-segments='[{"n":"非结构化数据","v":80,"c":"#2563eb"},{"n":"半结构化数据","v":10,"c":"#06b6d4"},{"n":"结构化数据","v":10,"c":"#7c3aed"}]'></div>
+      <p style="color:var(--muted);font-size:13px;margin-top:14px">这张占比图在不同资料里数字略有出入（70%～80%），这里采用 IDC 的估计口径。占比本身不重要，重要的是结论：<b>大多数数据「长得不像表格」</b>——这正是大数据技术存在的理由。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 发展历程 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal"><span class="eyebrow">History</span><h2>大数据发展历程</h2></div>
+    <div class="grid g-2">
+      <div class="panel reveal">
+        <div class="timeline">
+          <div class="tl-item"><div class="yr">2003</div><h4>Google 三驾马车论文</h4><p>GFS、MapReduce、BigTable 论文发表，奠定分布式存储与计算的理论基础。</p></div>
+          <div class="tl-item"><div class="yr">2006</div><h4>Hadoop 诞生</h4><p>基于 Google 论文的开源实现，HDFS 与 MapReduce 成为大数据处理的事实标准。</p></div>
+          <div class="tl-item"><div class="yr">2008</div><h4>大数据概念兴起</h4><p>《Nature》推出「Big Data」专刊，大数据正式进入学术界与工业界视野。</p></div>
+          <div class="tl-item"><div class="yr">2014</div><h4>Spark 崛起</h4><p>内存计算框架 Spark 成为 Apache 顶级项目，大幅提升迭代计算效率。</p></div>
+          <div class="tl-item"><div class="yr">至今</div><h4>数据湖与实时计算</h4><p>实时计算、湖仓一体、实时数仓快速发展，大数据与 AI 深度融合。</p></div>
+        </div>
+      </div>
+      <div class="reveal" data-delay=".08">
+        <div class="panel">
+          <div class="ph"><h3>与传统数据处理的核心差异</h3></div>
+          <table class="tbl">
+            <thead><tr><th>对比维度</th><th>传统数据处理</th><th>大数据处理</th></tr></thead>
+            <tbody>
+              <tr><td>数据规模</td><td>GB 级以内</td><td>TB / PB 级</td></tr>
+              <tr><td>计算架构</td><td>单机 / 垂直扩展</td><td>分布式集群 / 水平扩展</td></tr>
+              <tr><td>处理模式</td><td>先定义结构再存储</td><td>先存储再定义（Schema on Read）</td></tr>
+              <tr><td>数据类型</td><td>以结构化为主</td><td>结构化 + 半/非结构化</td></tr>
+              <tr><td>时效性</td><td>批量、滞后</td><td>批量 + 实时流处理</td></tr>
+              <tr><td>成本</td><td>高（专用服务器）</td><td>低（普通机器集群）</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout ok" style="margin-top:20px">
+          认知要点：大数据不是「更大的数据库」，而是一整套「分布式 + 并行 + 可扩展」的技术思想。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container" style="display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap">
+    <a class="btn btn-blue" href="index.html">← 返回首页</a>
+    <a class="btn btn-blue" href="techstack.html">下一模块：技术栈与架构 →</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="cols">
+      <div>
+        <a class="brand" href="index.html"><span class="logo">π</span><span>大数据认知平台</span></a>
+        <p style="margin-top:14px">面向大数据技术专业的知识认知与学以致用平台，由数智科技产业学院大数据技术专业学生自主设计与实现。</p>
+      </div>
+      <div><h4>知识模块</h4><a href="concept.html">认知基础</a><a href="techstack.html">技术栈与架构</a><a href="pipeline.html">数据处理流程</a><a href="practice.html">实践案例</a></div>
+      <div><h4>关于</h4><a href="lab.html">动手实验</a><a href="cases.html">行业应用</a><a href="about.html">平台与作者</a></div>
+    </div>
+    <div class="bottom">© 2026 大数据认知平台 · 石梦真 · 数智科技产业学院大数据技术专业　|　一个学生做的知识站，发现错误欢迎指出</div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

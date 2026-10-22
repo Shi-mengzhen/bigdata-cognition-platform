@@ -1,0 +1,339 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学以致用 · 实践案例 · 大数据认知平台</title>
+<meta name="description" content="学以致用实践案例：Python 数据采集与清洗、SQL 数据分析、Hadoop MapReduce 词频统计与数据可视化。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563eb'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23ffffff' font-family='Georgia,serif' font-weight='bold'%3Eπ%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container">
+    <a class="brand" href="index.html"><span class="logo">π</span><span>大数据认知平台<small>BIG DATA COGNITION</small></span></a>
+    <button class="hamburger" aria-label="菜单"><i></i><i></i><i></i></button>
+    <div class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="concept.html">认知基础</a>
+      <a href="techstack.html">技术栈</a>
+      <a href="pipeline.html">数据流程</a>
+      <a href="practice.html">实践案例</a>
+      <a href="lab.html">动手实验</a>
+      <a href="cases.html">行业应用</a>
+      <a href="about.html">关于</a>
+    </div>
+  </div>
+</nav>
+
+<header class="banner">
+  <div class="container">
+    <div class="crumb"><a href="index.html">首页</a> / 学以致用 · 实践案例</div>
+    <h1>学以致用 · 实践案例</h1>
+    <p>把课堂上的知识落到键盘上：从采集、清洗到分析、计算、可视化，用一段段可运行的代码，走完一条真实的数据处理链路。</p>
+  </div>
+</header>
+
+<!-- 理念 -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Learn &amp; Apply</span>
+      <h2>为什么强调「学以致用」</h2>
+      <p>大数据的知识如果不能落到代码和数据上，就只是名词。本页用四个递进的实践案例，展示专业核心课程知识如何转化为可运行的技能。</p>
+    </div>
+    <div class="grid g-4">
+      <div class="card reveal"><div class="ico">01</div><h3>采集与清洗</h3><p>用 Python 抓取数据并完成去重、补缺、纠错。</p><div class="tags"><span class="chip">数据采集与清洗</span></div></div>
+      <div class="card reveal" data-delay=".05"><div class="ico">02</div><h3>SQL 分析</h3><p>用 SQL 对结构化数据做分组统计与排序。</p><div class="tags"><span class="chip c2">数据分析技术与应用</span></div></div>
+      <div class="card reveal" data-delay=".1"><div class="ico">03</div><h3>分布式计算</h3><p>用 MapReduce 在集群上完成词频统计。</p><div class="tags"><span class="chip c3">Hadoop / Spark 生态</span></div></div>
+      <div class="card reveal" data-delay=".15"><div class="ico">04</div><h3>数据可视化</h3><p>用图表把分析结果呈现为直观洞察。</p><div class="tags"><span class="chip c4">数据可视化技术</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 案例一：Python 采集与清洗 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Case 01 · Python</span>
+      <h2>数据采集与清洗：把「脏数据」变干净</h2>
+      <p>对应课程《数据采集与清洗》。下面的脚本完成两件事：从公开接口采集数据，并对数据做去重、补缺、类型统一与异常值剔除。</p>
+    </div>
+    <div class="grid g-2" style="align-items:start">
+      <div class="code reveal">
+        <div class="head"><span class="d d1"></span><span class="d d2"></span><span class="d d3"></span><span class="t">clean_data.py</span></div>
+<pre style="margin:0;white-space:pre;font-family:inherit;color:inherit"># 1. 采集：读取原始数据文件（Python 标准库）
+import csv
+
+with open("villages_raw.csv", encoding="utf-8") as f:
+    rows = list(csv.DictReader(f))
+print("采集到", len(rows), "条记录")
+
+# 2. 清洗：类型统一 —— 先收集合法收入，算出中位数备用
+valid = []
+for r in rows:
+    try:
+        valid.append(float(r["income"]))
+    except ValueError:
+        r["income"] = None
+median = sorted(valid)[len(valid) // 2]
+
+# 3. 清洗：去重 · 补缺 · 剔除异常
+seen, clean = set(), []
+for r in rows:
+    if r["village_id"] in seen:                       # 去重
+        continue
+    seen.add(r["village_id"])
+    income = median if r["income"] is None else float(r["income"])   # 补缺
+    if income &gt;= 0:                                 # 剔除异常值
+        clean.append((r["village_id"], income))
+
+# 4. 输出清洗结果
+with open("villages_clean.csv", "w", encoding="utf-8-sig", newline="") as f:
+    w = csv.writer(f)
+    w.writerow(["village_id", "income"])
+    w.writerows(clean)
+print("清洗完成，剩余", len(clean), "条记录")</pre>
+      </div>
+      <div class="reveal" data-delay=".08">
+        <div class="panel">
+          <div class="ph"><h3>这段代码做了什么</h3><span class="hint">数据清洗四步</span></div>
+          <div class="row-list">
+            <div class="r"><span class="k">去重</span><span class="v">按 village_id 保留唯一记录 <small>对应「唯一性」</small></span></div>
+            <div class="r"><span class="k">补缺</span><span class="v">用中位数填充缺失的收入值 <small>对应「完整性」</small></span></div>
+            <div class="r"><span class="k">纠错</span><span class="v">统一字段类型，非法值标记为空 <small>对应「一致性」</small></span></div>
+            <div class="r"><span class="k">剔除</span><span class="v">过滤掉收入为负的异常记录 <small>对应「准确性」</small></span></div>
+          </div>
+        </div>
+        <div class="callout ok" style="margin-top:20px">实践心得：采集接口数据时，一定要先 <b>观察数据分布</b>再决定清洗策略，避免把真实的高值误判为异常值。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 案例二：SQL 分析 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Case 02 · SQL</span>
+      <h2>数据分析：用 SQL 从数据中找答案</h2>
+      <p>对应课程《数据分析技术与应用》《数据库原理与 SQL 语言》。对清洗后的乡村电商数据做分组统计，找出销售额最高的省份。</p>
+    </div>
+    <div class="grid g-2" style="align-items:start">
+      <div class="code reveal">
+        <div class="head"><span class="d d1"></span><span class="d d2"></span><span class="d d3"></span><span class="t">sales_rank.sql</span></div>
+<pre style="margin:0;white-space:pre;font-family:inherit;color:inherit">-- 按省份统计乡村电商销售额与订单量
+SELECT
+    province,
+    COUNT(*)                AS order_cnt,
+    ROUND(SUM(amount), 2)   AS total_sales,
+    ROUND(AVG(amount), 2)   AS avg_amount
+FROM dw_sales
+WHERE dt BETWEEN '2024-01-01' AND '2024-12-31'
+GROUP BY province
+ORDER BY total_sales DESC
+LIMIT 6;</pre>
+      </div>
+      <div class="reveal" data-delay=".08">
+        <div class="panel">
+          <div class="ph"><h3>查询结果（示意）</h3><span class="hint">TOP 6 省份</span></div>
+          <table class="tbl">
+            <thead><tr><th>province</th><th>order_cnt</th><th>total_sales</th></tr></thead>
+            <tbody>
+              <tr><td>山东省</td><td>12,860</td><td>3,208,450.00</td></tr>
+              <tr><td>河南省</td><td>10,422</td><td>2,741,900.00</td></tr>
+              <tr><td>四川省</td><td>9,105</td><td>2,318,760.00</td></tr>
+              <tr><td>江苏省</td><td>8,733</td><td>2,096,300.00</td></tr>
+              <tr><td>广东省</td><td>7,980</td><td>1,884,520.00</td></tr>
+              <tr><td>河北省</td><td>6,441</td><td>1,502,900.00</td></tr>
+            </tbody>
+          </table>
+          <div class="callout" style="margin-top:16px">SQL 是数据分析的通用语言：先 <b>WHERE 筛</b>，再 <b>GROUP BY 聚</b>，最后 <b>ORDER BY 排</b>，是绝大多数统计需求的标准套路。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 案例三：Hadoop MapReduce -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Case 03 · Hadoop</span>
+      <h2>分布式计算：MapReduce 词频统计</h2>
+      <p>对应课程《Hadoop 大数据生态技术与应用》。词频统计是大数据界的「Hello World」，用 Map 拆分、Reduce 归约，理解分而治之的思想。</p>
+    </div>
+    <div class="code reveal">
+      <div class="head"><span class="d d1"></span><span class="d d2"></span><span class="d d3"></span><span class="t">WordCount.java</span></div>
+<pre style="margin:0;white-space:pre;font-family:inherit;color:inherit">// Mapper：把每一行文本拆成 &lt;单词, 1&gt;
+public class WordMapper extends Mapper&lt;LongWritable, Text, Text, IntWritable&gt; {
+    private final static IntWritable ONE = new IntWritable(1);
+    private Text word = new Text();
+
+    @Override
+    protected void map(LongWritable key, Text value, Context ctx)
+            throws IOException, InterruptedException {
+        StringTokenizer itr = new StringTokenizer(value.toString());
+        while (itr.hasMoreTokens()) {
+            word.set(itr.nextToken());
+            ctx.write(word, ONE);
+        }
+    }
+}
+
+// Reducer：把相同单词的计数累加
+public class WordReducer extends Reducer&lt;Text, IntWritable, Text, IntWritable&gt; {
+    @Override
+    protected void reduce(Text key, Iterable&lt;IntWritable&gt; values, Context ctx)
+            throws IOException, InterruptedException {
+        int sum = 0;
+        for (IntWritable v : values) sum += v.get();
+        ctx.write(key, new IntWritable(sum));
+    }
+}</pre>
+    </div>
+    <div class="diagram reveal" style="margin-top:22px">
+      <svg viewBox="0 0 1040 280" role="img" aria-label="MapReduce 词频统计的 Map、Shuffle、Reduce 三阶段流程示意图">
+        <defs>
+          <marker id="mrArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#93b4f5"/>
+          </marker>
+        </defs>
+        <text x="125" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#1d4ed8">输入 · 数据分片</text>
+        <text x="395" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#1d4ed8">Map · 映射</text>
+        <text x="665" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#0e7490">Shuffle · 归并</text>
+        <text x="925" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">Reduce · 归约</text>
+
+        <rect x="20" y="42" width="210" height="200" rx="14" fill="#f1f5ff" stroke="#dbe6ff" stroke-width="2"/>
+        <text x="125" y="112" text-anchor="middle" font-size="12.5" fill="#0f172a">hello world</text>
+        <text x="125" y="142" text-anchor="middle" font-size="12.5" fill="#0f172a">hello spark</text>
+        <text x="125" y="172" text-anchor="middle" font-size="12.5" fill="#0f172a">spark world</text>
+
+        <line x1="234" y1="142" x2="284" y2="142" stroke="#93b4f5" stroke-width="2" marker-end="url(#mrArrow)"/>
+        <rect x="290" y="42" width="210" height="200" rx="14" fill="#eef4ff" stroke="#dbe6ff" stroke-width="2"/>
+        <text x="395" y="72" text-anchor="middle" font-size="10.5" fill="#0f172a">hello → (hello, 1)</text>
+        <text x="395" y="102" text-anchor="middle" font-size="10.5" fill="#0f172a">world → (world, 1)</text>
+        <text x="395" y="132" text-anchor="middle" font-size="10.5" fill="#0f172a">hello → (hello, 1)</text>
+        <text x="395" y="162" text-anchor="middle" font-size="10.5" fill="#0f172a">spark → (spark, 1)</text>
+        <text x="395" y="192" text-anchor="middle" font-size="10.5" fill="#0f172a">spark → (spark, 1)</text>
+        <text x="395" y="222" text-anchor="middle" font-size="10.5" fill="#0f172a">world → (world, 1)</text>
+
+        <line x1="504" y1="142" x2="554" y2="142" stroke="#93b4f5" stroke-width="2" marker-end="url(#mrArrow)"/>
+        <rect x="560" y="42" width="210" height="200" rx="14" fill="#e6fbfa" stroke="#cffafe" stroke-width="2"/>
+        <text x="665" y="112" text-anchor="middle" font-size="12.5" fill="#0f172a">hello ← 1, 1</text>
+        <text x="665" y="142" text-anchor="middle" font-size="12.5" fill="#0f172a">spark ← 1, 1</text>
+        <text x="665" y="172" text-anchor="middle" font-size="12.5" fill="#0f172a">world ← 1, 1</text>
+
+        <line x1="774" y1="142" x2="824" y2="142" stroke="#93b4f5" stroke-width="2" marker-end="url(#mrArrow)"/>
+        <rect x="830" y="42" width="190" height="200" rx="14" fill="#ecfdf5" stroke="#d1fae5" stroke-width="2"/>
+        <text x="925" y="112" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">hello = 2</text>
+        <text x="925" y="142" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">spark = 2</text>
+        <text x="925" y="172" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">world = 2</text>
+      </svg>
+      <span class="cap">图 1　MapReduce 词频统计流程：分片 → 映射 → 归并 → 归约，最终把相同单词的计数汇总输出</span>
+    </div>
+    <div class="grid g-3" style="margin-top:22px">
+      <div class="card reveal"><div class="ico">M</div><h3>Map 阶段</h3><p>各节点并行读取自己分到的数据块，把文本切成「单词 → 1」的键值对。</p><div class="tags"><span class="chip">并行</span><span class="chip">局部计算</span></div></div>
+      <div class="card reveal" data-delay=".05"><div class="ico">S</div><h3>Shuffle 阶段</h3><p>把相同单词的键值对汇聚到同一个 Reducer，是 MapReduce 中最耗性能的一环。</p><div class="tags"><span class="chip c4">网络传输</span><span class="chip c4">排序</span></div></div>
+      <div class="card reveal" data-delay=".1"><div class="ico">R</div><h3>Reduce 阶段</h3><p>对同一单词的计数求和，输出最终词频结果，写回 HDFS。</p><div class="tags"><span class="chip c2">归约</span><span class="chip c2">输出</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 案例四：可视化 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Case 04 · Visualization</span>
+      <h2>数据可视化：让结果一眼看懂</h2>
+      <p>对应课程《数据可视化技术》。分析结果若只用数字罗列，很难被理解；而合适的图表能瞬间传达结论。</p>
+    </div>
+    <div class="grid g-2" style="align-items:start">
+      <div class="panel reveal">
+        <div class="ph"><h3>各省销售额对比</h3><span class="hint">柱状图 · 适合比大小</span></div>
+        <div class="bars">
+          <div class="bar-row"><span>山东省</span><div class="bar-track"><div class="bar-fill" data-val="96"></div></div><span class="bar-val">96</span></div>
+          <div class="bar-row"><span>河南省</span><div class="bar-track"><div class="bar-fill" data-val="82"></div></div><span class="bar-val">82</span></div>
+          <div class="bar-row"><span>四川省</span><div class="bar-track"><div class="bar-fill" data-val="69"></div></div><span class="bar-val">69</span></div>
+          <div class="bar-row"><span>江苏省</span><div class="bar-track"><div class="bar-fill" data-val="62"></div></div><span class="bar-val">62</span></div>
+          <div class="bar-row"><span>广东省</span><div class="bar-track"><div class="bar-fill" data-val="56"></div></div><span class="bar-val">56</span></div>
+          <div class="bar-row"><span>河北省</span><div class="bar-track"><div class="bar-fill" data-val="45"></div></div><span class="bar-val">45</span></div>
+        </div>
+        <p style="color:var(--muted);font-size:13px;margin-top:14px">柱状图适合比较不同类目的数值大小，一眼看出山东省领先。</p>
+      </div>
+      <div class="panel reveal" data-delay=".08">
+        <div class="ph"><h3>图表选型对照</h3><span class="hint">不同数据关系用什么图</span></div>
+        <table class="tbl">
+          <thead><tr><th>分析目的</th><th>推荐图表</th></tr></thead>
+          <tbody>
+            <tr><td>比大小</td><td>柱状图 / 条形图</td></tr>
+            <tr><td>看趋势</td><td>折线图 / 面积图</td></tr>
+            <tr><td>看占比</td><td>饼图 / 环形图</td></tr>
+            <tr><td>看分布</td><td>地图 / 散点图</td></tr>
+            <tr><td>看相关</td><td>散点图 / 热力图</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:22px">选型小贴士：<b>比大小用柱状图，看趋势用折线图，看占比用饼图/环形图，看分布用地图或散点图。</b>图表类型选错，会让结论失真。</div>
+  </div>
+</section>
+
+<!-- 竞赛成果 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="panel reveal" style="background:linear-gradient(120deg,#eef4ff,#f7faff);border-color:#cfe0ff">
+      <div class="section-head" style="margin-bottom:18px">
+        <span class="eyebrow">Competition Work</span>
+        <h2 style="font-size:24px">省级竞赛作品：《数据创意，尽显乡美》</h2>
+        <p style="max-width:70em">本平台的实践思路，源自作者参与的省级学科竞赛作品。作品围绕乡村电商与文旅数据，完整走完了「采集 → 清洗 → 分析 → 可视化」的数据链路，把大数据技术用于展现乡村之美。</p>
+      </div>
+      <div class="grid g-3">
+        <div><div class="chip">数据采集</div><p style="color:var(--muted);font-size:13.5px;margin-top:8px">采集乡村电商交易与文旅景点公开数据，构建基础数据集。</p></div>
+        <div><div class="chip c2">数据清洗</div><p style="color:var(--muted);font-size:13.5px;margin-top:8px">统一字段口径、剔除异常与重复，保证分析结果可靠。</p></div>
+        <div><div class="chip c3">分析与可视化</div><p style="color:var(--muted);font-size:13.5px;margin-top:8px">用 SQL 与挖掘方法提炼规律，以图表讲述乡村发展故事。</p></div>
+      </div>
+      <div class="grid g-2" style="margin-top:22px">
+        <div class="callout ok">成果：获 <b>山东省大学生创新方法大赛三等奖</b>，验证了课堂知识在真实问题中的可用性。</div>
+        <div class="callout warn">收获：真实数据远比实验数据「脏」，项目最大的挑战不是算法，而是<b>把数据清洗到可用</b>。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 前后导航 -->
+<section class="section-sm">
+  <div class="container" style="display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap">
+    <a class="btn btn-blue" href="pipeline.html">← 上一模块：数据处理全流程</a>
+    <a class="btn btn-blue" href="cases.html">下一模块：行业应用场景 →</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="cols">
+      <div>
+        <a class="brand" href="index.html"><span class="logo">π</span><span>大数据认知平台</span></a>
+        <p style="margin-top:14px">面向大数据技术专业的知识认知与学以致用平台，由数智科技产业学院大数据技术专业学生自主设计与实现。</p>
+      </div>
+      <div>
+        <h4>知识模块</h4>
+        <a href="concept.html">认知基础</a>
+        <a href="techstack.html">技术栈与架构</a>
+        <a href="pipeline.html">数据处理流程</a>
+        <a href="practice.html">实践案例</a>
+      </div>
+      <div>
+        <h4>关于</h4>
+        <a href="lab.html">动手实验</a>
+        <a href="cases.html">行业应用</a>
+        <a href="about.html">平台与作者</a></div>
+    </div>
+    <div class="bottom">© 2026 大数据认知平台 · 石梦真 · 数智科技产业学院大数据技术专业　|　一个学生做的知识站，发现错误欢迎指出</div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
